@@ -1,25 +1,15 @@
-import React, { useState } from "react";
-import jsonData from "./../data.json";
+import React from "react";
 
-function SearchBar() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [showOnlyInStock, setShowOnlyInStock] = useState(false);
-
+function SearchBar({ searchTerm, showOnlyInStock, onSearchChange, onCheckboxChange }) {
   const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
+    const newSearchTerm = event.target.value;
+    onSearchChange(newSearchTerm);
   };
 
   const handleCheckboxChange = () => {
-    setShowOnlyInStock(!showOnlyInStock); // Toggle checkbox state
+    const newShowOnlyInStock = !showOnlyInStock;
+    onCheckboxChange(newShowOnlyInStock);
   };
-
-  const filteredProducts = jsonData.filter((product) => {
-    const nameIncludesSearchTerm = product.name.toLowerCase().includes(searchTerm.toLowerCase());
-    if (showOnlyInStock) {
-      return nameIncludesSearchTerm && product.inStock;
-    }
-    return nameIncludesSearchTerm;
-  });
 
   return (
     <div className="SearchBar">
@@ -33,24 +23,6 @@ function SearchBar() {
         />
         Only show products in stock
       </label>
-      <div className="ProductTable">
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredProducts.map((product) => (
-              <tr key={product.id}>
-                <td>{product.name}</td>
-                <td>{product.price}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
     </div>
   );
 }

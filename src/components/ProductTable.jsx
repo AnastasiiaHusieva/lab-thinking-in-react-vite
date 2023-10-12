@@ -1,12 +1,7 @@
 import React from "react";
-import jsonData from "./../data.json";
+import ProductRow from "./ProductRow"
 
-function ProductTable({ searchTerm }) {
-  const filteredProducts = jsonData.filter((product) => {
-    const nameIncludesSearchTerm = product.name.toLowerCase().includes(searchTerm.toLowerCase());
-    return nameIncludesSearchTerm;
-  });
-
+function ProductTable({filteredProducts}) {
   return (
     <table>
       <thead>
@@ -16,14 +11,11 @@ function ProductTable({ searchTerm }) {
         </tr>
       </thead>
       <tbody>
-        {filteredProducts.map((product) => (
-          <tr key={product.id}>
-            <td>{product.name}</td>
-            <td>{product.price}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+          {filteredProducts.map((product) => (
+            <ProductRow key={product.id} product={product} />
+          ))}
+        </tbody>
+      </table>
   );
 }
 
